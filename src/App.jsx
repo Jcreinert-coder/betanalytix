@@ -13,8 +13,6 @@ import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import Home from "@/pages/Home";
-import AnaliseDetail from "@/pages/AnaliseDetail";
-import MinhasApostas from "@/pages/MinhasApostas";
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -49,8 +47,6 @@ const AuthenticatedApp = () => {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route path="/" element={<Home />} />
-        <Route path="/analise/:id" element={<AnaliseDetail />} />
-        <Route path="/minhas-apostas" element={<MinhasApostas />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
