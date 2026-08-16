@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { toast } from "sonner";
-import { Sparkles, LineChart, Calendar, Loader2, RefreshCw, TrendingUp } from "lucide-react";
+import { Sparkles, LineChart, Calendar, Loader2, RefreshCw, TrendingUp, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,7 @@ const statusStyles = {
 };
 
 export default function Home() {
+  const navigate = useNavigate();
   const [periodo, setPeriodo] = useState("hoje");
   const [analises, setAnalises] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -136,12 +138,6 @@ Inclua entre 6 e 10 partidas reais. Priorize as ligas mais populares do momento.
     }
   };
 
-  const doDelete = async (id) => {
-    await base44.entities.Analise.delete(id);
-    setAnalises((prev) => prev.filter((a) => a.id !== id));
-    toast.success("Análise removida.");
-  };
-
   const sorted = [...analises].sort(
     (a, b) =>
       (new Date(b.data_evento || 0).getTime() || 0) -
@@ -233,7 +229,7 @@ Inclua entre 6 e 10 partidas reais. Priorize as ligas mais populares do momento.
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {sorted.map((a) => (
-              <AnaliseRow key={a.id} analise={a} onDelete={doDelete} />
+              <AnaliseRow key={a.id} analise={a} />
             ))}
           </div>
         )}
@@ -243,9 +239,13 @@ Inclua entre 6 e 10 partidas reais. Priorize as ligas mais populares do momento.
 }
 
 function AnaliseRow({ analise, onDelete }) {
+  const navigate = useNavigate();
   const data = analise.data_evento ? new Date(analise.data_evento) : null;
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-5 hover:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] transition-all duration-300 flex flex-col">
+    <button
+      onClick={() => navigate(`/analise/${analise.id}`)}
+      className="bg-white rounded-2xl border border-slate-200/80 p-5 hover:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] transition-all duration-300 flex flex-col text-left"
+    >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="font-medium text-slate-600">
@@ -292,13 +292,11 @@ function AnaliseRow({ analise, onDelete }) {
             </div>
           )}
         </div>
-        <button
-          onClick={() => onDelete(analise.id)}
-          className="text-xs text-slate-300 hover:text-rose-500 transition-colors"
-        >
-          Remover
-        </button>
+        <span className="flex items-center gap-1 text-xs text-slate-900 font-medium group-hover:gap-1.5 transition-all">
+          Ver análise
+          <ArrowRight className="w-3.5 h-3.5" />
+        </span>
       </div>
-    </div>
+    </button>
   );
 }
