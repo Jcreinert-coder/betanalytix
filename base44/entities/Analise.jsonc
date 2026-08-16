@@ -1,0 +1,71 @@
+{
+  "name": "Analise",
+  "type": "object",
+  "properties": {
+    "esporte": {
+      "type": "string",
+      "enum": [
+        "Futebol",
+        "Basquete",
+        "T\u00eanis",
+        "MMA",
+        "E-sports",
+        "V\u00f4lei",
+        "Outro"
+      ],
+      "default": "Futebol"
+    },
+    "evento": {
+      "type": "string",
+      "title": "Evento"
+    },
+    "mercado": {
+      "type": "string",
+      "description": "Tipo de aposta sugerida (ex: Resultado, Over/Under, Ambas marcam, Handicap)"
+    },
+    "recomendacao": {
+      "type": "string",
+      "title": "Recomenda\u00e7\u00e3o"
+    },
+    "odd_sugerida": {
+      "type": "number",
+      "description": "Odd sugerida para a aposta"
+    },
+    "confianca": {
+      "type": "string",
+      "enum": [
+        "Baixa",
+        "M\u00e9dia",
+        "Alta"
+      ],
+      "default": "M\u00e9dia"
+    },
+    "data_evento": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pendente",
+        "Ganhou",
+        "Perdeu",
+        "Anulada"
+      ],
+      "default": "Pendente"
+    },
+    "resumo": {
+      "type": "string",
+      "description": "Resumo da an\u00e1lise e justificativa"
+    },
+    "analista": {
+      "type": "string",
+      "default": "IA Base44"
+    }
+  },
+  "required": [
+    "evento",
+    "recomendacao",
+    "mercado"
+  ]
+}
